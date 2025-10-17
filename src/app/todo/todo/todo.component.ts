@@ -3,14 +3,15 @@ import { Todo } from '../model/todo';
 import { TodoService } from '../service/todo.service';
 
 import { FormsModule } from '@angular/forms';
+import { RainbowDirective } from 'src/app/directives/rainbow.directive';
 
 @Component({
-    selector: 'app-todo',
-    templateUrl: './todo.component.html',
-    styleUrls: ['./todo.component.css'],
-    providers: [TodoService],
-    standalone: true,
-    imports: [FormsModule],
+  selector: 'app-todo',
+  templateUrl: './todo.component.html',
+  styleUrls: ['./todo.component.css'],
+  providers: [TodoService],
+  standalone: true,
+  imports: [FormsModule, RainbowDirective],
 })
 export class TodoComponent {
   private todoService = inject(TodoService);

@@ -1,7 +1,7 @@
 <div class="alert alert-info">List of {{usersCluster}}</div>
 <div class="row">
   <div class="col-9">
-    <input type="text" class="form-control" [(ngModel)]="userFullName">
+    <input type="text" class="form-control" [(ngModel)]="userFullName" rainbow>
   </div>
   <div class="col-3">
     <button class="btn btn-primary" [disabled]="!userFullName" (click)="addUser()">add user</button>
