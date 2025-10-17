@@ -1,7 +1,7 @@
 <p>add-cv works!</p>
 <form [formGroup]="form">
   Name:
-  <input type="text" class="form-control" formControlName="name" />
+  <input type="text" class="form-control" formControlName="name" rainbow />
   <div
     *ngIf="form.get('name')?.errors && form.get('name')?.touched"
     class="alert alert-danger"
@@ -9,9 +9,10 @@
     Ce champ est obligatoire
   </div>
   Firstname:
-  <input type="text" class="form-control" formControlName="firstname" /> Age:
-  <input type="text" class="form-control" formControlName="age" /> Cin:
-  <input type="text" class="form-control" formControlName="cin" />
+  <input type="text" class="form-control" formControlName="firstname" rainbow />
+  Age:
+  <input type="text" class="form-control" formControlName="age" rainbow /> Cin:
+  <input type="text" class="form-control" formControlName="cin" rainbow />
   <div
     *ngIf="
       form.errors && form.errors['cinFirstCars'] && cin?.touched && age?.touched
@@ -20,8 +21,9 @@
   >
     Cette Cin est invalide
   </div>
-  Job: <input type="text" class="form-control" formControlName="job" /> Path:
-  <input type="text" class="form-control" formControlName="path" />
+  Job:
+  <input type="text" class="form-control" formControlName="job" rainbow /> Path:
+  <input type="text" class="form-control" formControlName="path" rainbow />
 
   <button [disabled]="form.invalid" class="btn btn-primary" (click)="addCv()">
     add cv

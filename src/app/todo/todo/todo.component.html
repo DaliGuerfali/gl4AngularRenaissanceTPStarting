@@ -8,8 +8,8 @@
     </ol>
   </div>
   <div class="col">
-    name: <input [(ngModel)]="todo.name" type="text" class="form-control">
-    content: <input [(ngModel)]="todo.content" type="text" class="form-control">
+    name: <input [(ngModel)]="todo.name" type="text" class="form-control" rainbow>
+    content: <input [(ngModel)]="todo.content" type="text" class="form-control" rainbow>
     <button (click)="addTodo()" [disabled]="!todo.name.trim() || !todo.content.trim()"
       class="btn btn-primary m-2">add</button>
   </div>
