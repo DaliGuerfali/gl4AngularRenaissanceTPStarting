@@ -1,0 +1,54 @@
+<div class="calculator-container">
+  <h1>TTC Calculator</h1>
+  
+  <div class="inputs-row">
+    <div class="input-box">
+      <input 
+        type="number" 
+        [ngModel]="price()"
+        (ngModelChange)="price.set($event)"
+        min="0"
+        step="0.01"
+      />
+      <label>Prix HT</label>
+    </div>
+
+    <div class="input-box">
+      <input 
+        type="number" 
+        [ngModel]="quantity()"
+        (ngModelChange)="quantity.set($event)"
+        min="1"
+      />
+      <label>Quantité</label>
+    </div>
+
+    <div class="input-box">
+      <input 
+        type="number" 
+        [ngModel]="vat()"
+        (ngModelChange)="vat.set($event)"
+        min="0"
+        max="100"
+      />
+      <label>TVA</label>
+    </div>
+  </div>
+
+  <div class="results-row">
+    <div class="result-box blue">
+      <label>Prix unitaire TTC</label>
+      <p>{{ pricePerUnitTTC() }} €</p>
+    </div>
+
+    <div class="result-box green">
+      <label>Prix total TTC</label>
+      <p>{{ totalTTC() }} €</p>
+    </div>
+
+    <div class="result-box pink">
+      <label>Discount</label>
+      <p>{{ discountAmount() }} €</p>
+    </div>
+  </div>
+</div>
