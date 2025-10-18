@@ -67,11 +67,8 @@ import { RainbowDirective } from './directives/rainbow.directive';
     CvComponent,
     ListComponent,
     ItemComponent,
-    DetailsCvComponent,
     CvCardComponent,
-    CardProfilComponent,
     EmbaucheComponent,
-    DefaultImagePipe,
     AutocompleteComponent,
     NgstyleComponent,
     MiniWordComponent,
@@ -106,6 +103,8 @@ import { RainbowDirective } from './directives/rainbow.directive';
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
     }),
+    DetailsCvComponent,
+    DefaultImagePipe,
     RainbowDirective,
   ],
   providers: [

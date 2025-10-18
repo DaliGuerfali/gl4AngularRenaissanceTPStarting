@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { APP_ROUTES } from '../../../config/routes.config';
 import { AuthService } from '../../auth/services/auth.service';
 import { DefaultImagePipe } from '../pipes/default-image.pipe';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { Observable, EMPTY } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
@@ -15,7 +15,7 @@ import { catchError, tap } from 'rxjs/operators';
     templateUrl: './details-cv.component.html',
     styleUrls: ['./details-cv.component.css'],
     standalone: true,
-    imports: [DefaultImagePipe, AsyncPipe],  // ← ADDED AsyncPipe
+    imports: [DefaultImagePipe, AsyncPipe, CommonModule],
 })
 export class DetailsCvComponent implements OnInit {
   private cvService = inject(CvService);
