@@ -1,55 +1,53 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, computed, signal, inject } from '@angular/core';
 import { Todo } from '../model/todo';
 import { LoggerService } from '../../services/logger.service';
 
-let n = 1;
+let _id = 1;
 
 @Injectable({
   providedIn: 'root',
 })
 export class TodoService {
-  private loggerService = inject(LoggerService);
+  private logger = inject(LoggerService);
 
-  private todos: Todo[] = [];
+  // internal writable signal holding the list
+  private _todos = signal<Todo[]>([
+    // seed with a couple of examples
+    new Todo(_id++, 'Buy milk', '2 liters', 'waiting'),
+    new Todo(_id++, 'Write report', 'Finish by Friday', 'in progress'),
+    new Todo(_id++, 'Book flight', 'Vacation planning', 'done'),
+  ]);
 
-  /**
-   * elle retourne la liste des todos
-   *
-   * @returns Todo[]
-   */
-  getTodos(): Todo[] {
-    return this.todos;
+  // readonly view
+  readonly todos = this._todos.asReadonly();
+
+  // computed signals for each status
+  readonly waiting = computed(() => this._todos().filter((t: Todo) => t.status === 'waiting'));
+  readonly inProgress = computed(() => this._todos().filter((t: Todo) => t.status === 'in progress'));
+  readonly done = computed(() => this._todos().filter((t: Todo) => t.status === 'done'));
+
+  getTodosSnapshot(): Todo[] {
+    return this._todos();
   }
 
-  /**
-   *Elle permet d'ajouter un todo
-   *
-   * @param todo: Todo
-   *
-   */
-  addTodo(todo: Todo): void {
-    this.todos.push(todo);
+  addTodo(todo: Pick<Todo, 'name' | 'content' | 'status'>) {
+    const t = new Todo(_id++, todo.name, todo.content, todo.status ?? 'waiting');
+  this._todos.update((list: Todo[]) => [...list, t]);
+    this.logger.logger(['addTodo', t]);
+    return t;
   }
 
-  /**
-   * Delete le todo s'il existe
-   *
-   * @param todo: Todo
-   * @returns boolean
-   */
-  deleteTodo(todo: Todo): boolean {
-    const index = this.todos.indexOf(todo);
-    if (index > -1) {
-      this.todos.splice(index, 1);
-      return true;
-    }
-    return false;
+  deleteTodo(id: number) {
+  this._todos.update((list: Todo[]) => list.filter((t: Todo) => t.id !== id));
+    this.logger.logger(['deleteTodo', id]);
   }
 
-  /**
-   * Logger la liste des todos
-   */
+  updateStatus(id: number, status: Todo['status']) {
+  this._todos.update((list: Todo[]) => list.map((t: Todo) => (t.id === id ? { ...t, status } : t)));
+    this.logger.logger(['updateStatus', id, status]);
+  }
+
   logTodos() {
-    this.loggerService.logger(this.todos);
+    this.logger.logger(this._todos());
   }
 }
