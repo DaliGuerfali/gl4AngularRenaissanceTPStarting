@@ -59,6 +59,34 @@ export class AuthService {
           observer.complete();
         },
         error: (err) => {
+          // Remote login failed: try local fallback using registeredUsers
+          try {
+            const existingUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+            const matched = existingUsers.find((u: any) => u.email === credentials.email && u.password === credentials.password);
+            if (matched) {
+              const mockResp: LoginResponseDto = {
+                id: Date.now().toString(),
+                ttl: 86400,
+                created: new Date(),
+                userId: parseInt(matched.id, 10) || Date.now(),
+              };
+              localStorage.setItem('token', mockResp.id);
+              localStorage.setItem('userId', mockResp.userId.toString());
+              localStorage.setItem('email', credentials.email);
+              this.userSignal.set({
+                id: mockResp.userId.toString(),
+                email: credentials.email,
+                isAuthenticated: true,
+              });
+              observer.next(mockResp);
+              observer.complete();
+              return;
+            }
+          } catch (e) {
+            // ignore JSON parse errors and fall through
+          }
+
+          // If no local match, propagate original error
           observer.error(err);
         }
       });
@@ -109,6 +137,8 @@ export class AuthService {
                 email: registerData.email,
                 firstname: registerData.firstname,
                 name: registerData.name,
+                // store password locally for dev-mode fallback login
+                password: registerData.password,
                 registeredAt: new Date().toISOString()
               };
               
