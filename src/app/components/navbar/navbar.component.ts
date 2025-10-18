@@ -2,8 +2,8 @@ import { Component, inject, computed } from '@angular/core';
 import { AuthService } from '../../auth/services/auth.service';
 import { Router, RouterLinkActive, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { CommonModule } from '@angular/common';
 import { APP_ROUTES } from '../../../config/routes.config';
-
 
 @Component({
     selector: 'app-navbar',
@@ -11,9 +11,10 @@ import { APP_ROUTES } from '../../../config/routes.config';
     styleUrls: ['./navbar.component.css'],
     standalone: true,
     imports: [
-    RouterLinkActive,
-    RouterLink
-],
+        RouterLinkActive,
+        RouterLink,
+        CommonModule
+    ],
 })
 export class NavbarComponent {
   authService = inject(AuthService);
