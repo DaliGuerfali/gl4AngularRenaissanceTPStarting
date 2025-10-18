@@ -22,7 +22,8 @@ export class LoginComponent {
   login(credentials: CredentialsDto) {
     this.authService.login(credentials).subscribe({
       next: (response) => {
-        localStorage.setItem('token', response.id);
+        //localStorage.setItem('token', response.id);
+        // L'état utilisateur est déjà mis à jour via le signal dans AuthService
         this.toastr.success(`Bienvenu chez vous :)`);
         this.router.navigate([APP_ROUTES.cv]);
       },

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, computed } from '@angular/core';
 import { AuthService } from '../../auth/services/auth.service';
 import { Router, RouterLinkActive, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -20,6 +20,8 @@ export class NavbarComponent {
   private router = inject(Router);
   private toastr = inject(ToastrService);
 
+  isAuthenticated = computed(() => this.authService.userSignal().isAuthenticated);
+  userEmail = computed(() => this.authService.userSignal().email);
 
   logout() {
     this.authService.logout();
