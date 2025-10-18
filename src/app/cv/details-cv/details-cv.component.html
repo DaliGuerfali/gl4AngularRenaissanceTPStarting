@@ -1,49 +1,78 @@
-@if (cv) {
+<!-- 🚀 SIGNALS - Template mis à jour pour les signaux -->
+
+<!-- 🔄 Indicateur de chargement -->
+@if (loading()) {
+  <div class="d-flex justify-content-center">
+    <div class="alert alert-info">
+      <i class="fa fa-spinner fa-spin"></i> Chargement du CV en cours...
+    </div>
+  </div>
+}
+
+<!-- 📋 Contenu principal du CV avec signaux -->
+@if (cv() && !loading()) {
   <div class="d-flex justify-content-center">
     <div class="col-lg-8 push-lg-4">
       <div class="tab-content p-b-3">
         <div class="tab-pane active" id="profile">
-          <h4 class="m-y-2">Cv {{ cv.firstname }} {{ cv.name }}</h4>
+          <!-- 🎯 Titre dynamique avec computed signal -->
+          <h4 class="m-y-2">{{ pageTitle() }}</h4>
           <div class="d-flex justify-content-center">
             <img width="150px" height="150px" class="rounded-circle align-content-center"
-              src="assets/images/{{ cv.path | defaultImage }}" alt="{{ cv.name }}" />
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <h4 class="m-t-2">
-                  <span class="fa fa-clock-o ion-clock pull-xs-right"></span>
-                  Informations
-                </h4>
-                <table class="table table-hover table-striped">
-                  <tbody>
-                    <tr>
-                      <td><strong>Name</strong> {{ cv.name }}</td>
-                    </tr>
-                    <tr>
-                      <td><strong>Firstname</strong> {{ cv.firstname }}</td>
-                    </tr>
-                    <tr>
-                      <td><strong>Job</strong> {{ cv.job }}</td>
-                    </tr>
-                    <tr>
-                      <td><strong>Age</strong> {{ cv.age }}</td>
-                    </tr>
-                    <tr>
-                      <td><strong>Cin</strong> {{ cv.cin }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div class="d-flex justify-content-center">
-                  @if (authService.isAuthenticated()) {
-                    <button (click)="deleteCv(cv)" class="btn btn-danger">
+              src="assets/images/{{ cv()!.path | defaultImage }}" alt="{{ cv()!.name }}" />
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <h4 class="m-t-2">
+                <span class="fa fa-clock-o ion-clock pull-xs-right"></span>
+                Informations
+              </h4>
+              <table class="table table-hover table-striped">
+                <tbody>
+                  <tr>
+                    <td><strong>Name</strong> {{ cv()!.name }}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Firstname</strong> {{ cv()!.firstname }}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Job</strong> {{ cv()!.job }}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Age</strong> {{ cv()!.age }}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Cin</strong> {{ cv()!.cin }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="d-flex justify-content-center">
+                @if (authService.isAuthenticated()) {
+                  <button 
+                    (click)="deleteCv(cv()!)" 
+                    class="btn btn-danger"
+                    [disabled]="loading()">
+                    @if (loading()) {
+                      <i class="fa fa-spinner fa-spin"></i> Suppression...
+                    } @else {
                       Delete
-                    </button>
-                  }
-                </div>
+                    }
+                  </button>
+                }
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  }
+  </div>
+}
+
+<!-- 🚨 Message si aucun CV n'est trouvé -->
+@if (!cv() && !loading() && !error()) {
+  <div class="d-flex justify-content-center">
+    <div class="alert alert-warning">
+      <i class="fa fa-exclamation-triangle"></i> Aucun CV trouvé.
+    </div>
+  </div>
+}

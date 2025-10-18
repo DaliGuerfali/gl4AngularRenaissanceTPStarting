@@ -18,6 +18,10 @@ export class ItemComponent {
   @Input() size = 50;
 
   onSelectCv() {
+    // 🚀 SIGNALS - Utilise la nouvelle méthode basée sur les signaux
+    this.cvService.selectCvWithSignal(this.cv);
+    
+    // 🔄 Garde aussi l'ancienne méthode pour la compatibilité
     this.cvService.selectCv(this.cv);
   }
 }
