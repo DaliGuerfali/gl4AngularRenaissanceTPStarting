@@ -1,12 +1,30 @@
+<!-- 🚀 SIGNALS - Template mis à jour pour les signaux -->
 <div class="row">
   <div class="col">
     <div class="alert alert-warning">
       {{ date | date : "full" | uppercase }}
     </div>
-    <app-list [cvs]="cvs"></app-list>
+    
+    <!-- 🔄 Indicateur de chargement -->
+    @if (loading()) {
+      <div class="alert alert-info">
+        <i class="fa fa-spinner fa-spin"></i> Chargement des CVs en cours...
+      </div>
+    }
+    
+    <!-- 🚨 Affichage des erreurs -->
+    @if (error()) {
+      <div class="alert alert-danger">
+        <i class="fa fa-exclamation-triangle"></i> {{ error() }}
+      </div>
+    }
+    
+    <!-- 📋 Liste des CVs avec signaux -->
+    <app-list [cvs]="cvs()"></app-list>
   </div>
   <div class="col">
-    <app-cv-card [cv]="selectedCv"></app-cv-card>
+    <!-- 🎯 CV sélectionné avec signaux -->
+    <app-cv-card [cv]="selectedCv()"></app-cv-card>
   </div>
 </div>
 <app-embauche></app-embauche>

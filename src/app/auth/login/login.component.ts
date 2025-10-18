@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { CredentialsDto } from '../dto/credentials.dto';
-import { ROUTES, Router } from '@angular/router';
+import { ROUTES, Router, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { APP_ROUTES } from '../../../config/routes.config';
 import { FormsModule } from '@angular/forms';
@@ -12,7 +12,7 @@ import { RainbowDirective } from 'src/app/directives/rainbow.directive';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
   standalone: true,
-  imports: [FormsModule, RainbowDirective],
+  imports: [FormsModule, RainbowDirective, RouterLink],
 })
 export class LoginComponent {
   private authService = inject(AuthService);
@@ -22,7 +22,8 @@ export class LoginComponent {
   login(credentials: CredentialsDto) {
     this.authService.login(credentials).subscribe({
       next: (response) => {
-        localStorage.setItem('token', response.id);
+        //localStorage.setItem('token', response.id);
+        // L'état utilisateur est déjà mis à jour via le signal dans AuthService
         this.toastr.success(`Bienvenu chez vous :)`);
         this.router.navigate([APP_ROUTES.cv]);
       },

@@ -1,4 +1,4 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, computed, effect } from "@angular/core";
 import { Cv } from "../model/cv";
 import { LoggerService } from "../../services/logger.service";
 import { ToastrService } from "ngx-toastr";
@@ -25,25 +25,60 @@ export class CvComponent {
   private toastr = inject(ToastrService);
   private cvService = inject(CvService);
 
-  cvs: Cv[] = [];
-  selectedCv: Cv | null = null;
-  /*   selectedCv: Cv | null = null; */
+  // 🚀 SIGNAUX - Remplacement des propriétés par des computed signals
+  
+  /**
+   * Signal computed pour la liste des CVs
+   */
+  cvs = this.cvService.cvs$;
+  
+  /**
+   * Signal computed pour le CV sélectionné
+   */
+  selectedCv = this.cvService.selectedCv$;
+  
+  /**
+   * Signal computed pour l'état de chargement
+   */
+  loading = this.cvService.loading;
+  
+  /**
+   * Signal computed pour les erreurs
+   */
+  error = this.cvService.error;
+  
+  /**
+   * Date actuelle (peut rester une propriété normale)
+   */
   date = new Date();
 
   constructor() {
-    this.cvService.getCvs().subscribe({
-      next: (cvs) => {
-        this.cvs = cvs;
-      },
-      error: () => {
-        this.cvs = this.cvService.getFakeCvs();
-        this.toastr.error(`
-          Attention!! Les données sont fictives, problème avec le serveur.
-          Veuillez contacter l'admin.`);
-      },
+    // 🚀 Charge les CVs avec la nouvelle méthode basée sur les signaux
+    this.cvService.loadCvsWithSignals();
+    
+    this.logger.logger("je suis le cvComponent - Version Signals");
+    this.toastr.info("Bienvenu dans notre CvTech - Version avec Signaux Angular!");
+    
+    // 🚀 EFFECT - Réaction automatique aux changements d'erreur
+    effect(() => {
+      const errorMsg = this.error();
+      if (errorMsg) {
+        this.toastr.error(errorMsg, 'Erreur de chargement');
+      }
     });
-    this.logger.logger("je suis le cvComponent");
-    this.toastr.info("Bienvenu dans notre CvTech");
-    this.cvService.selectCv$.subscribe((cv) => (this.selectedCv = cv));
+    
+    // 🚀 EFFECT - Log des changements de CVs
+    effect(() => {
+      const cvsList = this.cvs();
+      this.logger.logger(`CVs chargés: ${cvsList.length} CVs disponibles`);
+    });
+    
+    // 🚀 EFFECT - Log du CV sélectionné
+    effect(() => {
+      const selected = this.selectedCv();
+      if (selected) {
+        this.logger.logger(`CV sélectionné: ${selected.name} ${selected.firstname}`);
+      }
+    });
   }
 }

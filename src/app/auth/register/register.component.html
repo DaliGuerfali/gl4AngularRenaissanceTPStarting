@@ -1,0 +1,162 @@
+<!-- 🚀 SIGN UP FORM - Modern Bootstrap Design -->
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow">
+        <div class="card-body p-4">
+          <!-- Header -->
+          <div class="text-center mb-4">
+            <h2 class="card-title text-primary">
+              <i class="fas fa-user-plus"></i> Sign Up
+            </h2>
+            <p class="text-muted">Create your new account</p>
+          </div>
+
+          <!-- Registration Form -->
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            
+            <!-- First Name Field -->
+            <div class="mb-3">
+              <label for="firstname" class="form-label">
+                <i class="fas fa-user"></i> First Name
+              </label>
+              <input
+                type="text"
+                id="firstname"
+                formControlName="firstname"
+                class="form-control"
+                [class.is-invalid]="hasFieldError('firstname')"
+                placeholder="Enter your first name"
+              />
+              @if (hasFieldError('firstname')) {
+                <div class="invalid-feedback">
+                  {{ getFieldError('firstname') }}
+                </div>
+              }
+            </div>
+
+            <!-- Last Name Field -->
+            <div class="mb-3">
+              <label for="name" class="form-label">
+                <i class="fas fa-user"></i> Last Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                formControlName="name"
+                class="form-control"
+                [class.is-invalid]="hasFieldError('name')"
+                placeholder="Enter your last name"
+              />
+              @if (hasFieldError('name')) {
+                <div class="invalid-feedback">
+                  {{ getFieldError('name') }}
+                </div>
+              }
+            </div>
+
+            <!-- Email Field -->
+            <div class="mb-3">
+              <label for="email" class="form-label">
+                <i class="fas fa-envelope"></i> Email Address
+              </label>
+              <input
+                type="email"
+                id="email"
+                formControlName="email"
+                class="form-control"
+                [class.is-invalid]="hasFieldError('email')"
+                placeholder="Enter your email address"
+              />
+              @if (hasFieldError('email')) {
+                <div class="invalid-feedback">
+                  {{ getFieldError('email') }}
+                </div>
+              }
+            </div>
+
+            <!-- Password Field -->
+            <div class="mb-3">
+              <label for="password" class="form-label">
+                <i class="fas fa-lock"></i> Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                formControlName="password"
+                class="form-control"
+                [class.is-invalid]="hasFieldError('password')"
+                placeholder="Enter your password (min 6 characters)"
+              />
+              @if (hasFieldError('password')) {
+                <div class="invalid-feedback">
+                  {{ getFieldError('password') }}
+                </div>
+              }
+            </div>
+
+            <!-- Confirm Password Field -->
+            <div class="mb-3">
+              <label for="confirmPassword" class="form-label">
+                <i class="fas fa-lock"></i> Confirm Password
+              </label>
+              <input
+                type="password"
+                id="confirmPassword"
+                formControlName="confirmPassword"
+                class="form-control"
+                [class.is-invalid]="hasFieldError('confirmPassword')"
+                placeholder="Confirm your password"
+              />
+              @if (hasFieldError('confirmPassword')) {
+                <div class="invalid-feedback">
+                  {{ getFieldError('confirmPassword') }}
+                </div>
+              }
+            </div>
+
+            <!-- Error Display -->
+            @if (error()) {
+              <div class="alert alert-danger">
+                <i class="fas fa-exclamation-triangle"></i> {{ error() }}
+              </div>
+            }
+
+            <!-- Submit Button -->
+            <div class="d-grid">
+              <button
+                type="submit"
+                class="btn btn-primary btn-lg"
+                [disabled]="loading() || registerForm.invalid"
+              >
+                @if (loading()) {
+                  <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                  Creating Account...
+                } @else {
+                  <i class="fas fa-user-plus"></i> Create Account
+                }
+              </button>
+            </div>
+          </form>
+
+          <!-- Login Link -->
+          <div class="text-center mt-4">
+            <p class="mb-0">
+              Already have an account?
+              <a routerLink="/login" class="text-primary text-decoration-none">
+                <i class="fas fa-sign-in-alt"></i> Sign In
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Info -->
+      <div class="text-center mt-3">
+        <small class="text-muted">
+          By signing up, you agree to our Terms of Service and Privacy Policy.
+        </small>
+      </div>
+    </div>
+  </div>
+</div>

@@ -6,6 +6,7 @@ import { ColorComponent } from "./components/color/color.component";
 import { FrontComponent } from "./templates/front/front.component";
 import { AdminComponent } from "./templates/admin/admin.component";
 import { LoginComponent } from "./auth/login/login.component";
+import { RegisterComponent } from "./auth/register/register.component";
 import { NF404Component } from "./components/nf404/nf404.component";
 import { AuthGuard } from "./auth/guards/auth.guard";
 import { AddCvComponent } from "./cv/add-cv/add-cv.component";
@@ -17,6 +18,7 @@ import { TtcCalculatorComponent } from "./components/ttc-calculator/ttc-calculat
 
 const routes: Route[] = [
   { path: "login", component: LoginComponent },
+  { path: "register", component: RegisterComponent }, // ← New register route
   { path: "rh", component: RhComponent },
   {
     path: "cv",

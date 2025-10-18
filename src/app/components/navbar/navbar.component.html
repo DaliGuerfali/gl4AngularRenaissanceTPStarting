@@ -35,20 +35,21 @@
               routerLinkActive="active text-primary"
               >Cv</a
               >
-              <a
-                class="nav-link"
-                [routerLink]="['ttc']"
-                routerLinkActive="active text-primary"
-                >TTC</a
-                >
+              @if (isAuthenticated()) {
+                <a
+                  class="nav-link"
+                  [routerLink]="['cv/list']"
+                  routerLinkActive="active text-primary"
+                  >Cv List</a
+                  >
+              }
               @if (authService.isAuthenticated()) {
                 <a
                   class="nav-link"
                   [routerLink]="['cv/add']"
                   routerLinkActive="active text-primary"
-                  >Add Cv</a
-                  >
-                }
+                  >Add Cv</a>
+              }
                 <a
                   class="nav-link"
                   [routerLink]="['todo']"
@@ -73,22 +74,38 @@
                         routerLinkActive="active text-primary"
                         >Rh</a
                         >
-                        @if (!authService.isAuthenticated()) {
+                        <a
+                          class="nav-link"
+                          [routerLink]="['ttc']"
+                          routerLinkActive="active text-primary"
+                          >TTC Calculator</a>
+                          
+                        @if (!isAuthenticated()) {
                           <a
                             class="nav-link"
                             [routerLink]="['login']"
                             routerLinkActive="active text-primary"
-                            >Login</a
-                            >
-                          }
-                          @if (authService.isAuthenticated()) {
-                            <a
-                              class="nav-link"
-                              (click)="logout()"
-                              >Logout</a
-                              >
-                            }
-                          </div>
+                            ><i class="fas fa-sign-in-alt"></i> Login</a>
+                        }
                         </div>
+                        
+                        <!-- User menu when authenticated -->
+                        @if (isAuthenticated()) {
+                          <div class="navbar-nav ms-auto">
+                            @if (userEmail()) {
+                              <span class="navbar-text me-3">
+                                <i class="fas fa-user"></i> Welcome, {{ userEmail() }}
+                              </span>
+                            }
+                            <button
+                              class="btn btn-outline-danger btn-sm"
+                              (click)="logout()"
+                              title="Sign out of your account"
+                              >
+                              <i class="fas fa-sign-out-alt"></i> Logout
+                            </button>
+                          </div>
+                        }
                       </div>
+                    </div>
                     </nav>
