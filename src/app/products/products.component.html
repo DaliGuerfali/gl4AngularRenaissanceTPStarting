@@ -1,16 +1,35 @@
-<ng-container
-  *ngIf="(products$ | async) as productsList, else loading"
->
-<button class="btn btn-primary"> More Products</button>
-<div class="alert alert-warning">
-  Product Number: {{productsList?.length}}
-</div>
-<div class="row">
-  <div class="col-4" *ngFor="let product of productsList">
-    <img class="rounded-circle" src="{{product.thumbnail}}" width="150px" height="150px">
-    {{product.title}}
+<ng-container *ngIf="(vm$ | async) as vm; else loading">
+  <div class="d-flex align-items-center mb-3 gap-2">
+    <button
+      class="btn btn-primary"
+      type="button"
+      (click)="onShowMore()"
+      [disabled]="!vm.hasMore"
+    >
+      {{ vm.hasMore ? "Show More Products" : "All Products Loaded" }}
+    </button>
+    <div class="alert alert-warning mb-0">
+      Product Number: {{ vm.products.length }} / {{ vm.total || "?" }}
+    </div>
   </div>
-</div>
+
+  <div class="row g-4">
+    <div class="col-12 col-md-6 col-lg-4" *ngFor="let product of vm.products">
+      <div class="card h-100">
+        <img
+          class="card-img-top object-fit-cover"
+          [src]="product.thumbnail"
+          [alt]="product.title"
+          height="200"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{ product.title }}</h5>
+          <p class="card-text text-truncate">{{ product.description }}</p>
+          <div class="fw-semibold">${{ product.price }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </ng-container>
 
 <ng-template #loading>
