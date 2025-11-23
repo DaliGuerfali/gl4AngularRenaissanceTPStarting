@@ -1,12 +1,12 @@
-import { Component } from "@angular/core";
-import { Cv } from "../model/cv";
-import { LoggerService } from "../../services/logger.service";
-import { ToastrService } from "ngx-toastr";
-import { CvService } from "../services/cv.service";
+import { Component } from '@angular/core';
+import { Cv } from '../model/cv';
+import { LoggerService } from '../../services/logger.service';
+import { ToastrService } from 'ngx-toastr';
+import { CvService } from '../services/cv.service';
 @Component({
-  selector: "app-cv",
-  templateUrl: "./cv.component.html",
-  styleUrls: ["./cv.component.css"],
+  selector: 'app-cv',
+  templateUrl: './cv.component.html',
+  styleUrls: ['./cv.component.css'],
 })
 export class CvComponent {
   cvs: Cv[] = [];
@@ -31,8 +31,8 @@ export class CvComponent {
           Veuillez contacter l'admin.`);
       },
     });
-    this.logger.logger("je suis le cvComponent");
-    this.toastr.info("Bienvenu dans notre CvTech");
+    this.logger.logger('je suis le cvComponent');
+    this.toastr.info('Bienvenu dans notre CvTech');
     this.cvService.selectCv$.subscribe((cv) => (this.selectedCv = cv));
     // subscribe to search results from autocomplete and store locally
     this.cvService.searchResults$.subscribe((cvs) => (this.filteredCvs = cvs));
