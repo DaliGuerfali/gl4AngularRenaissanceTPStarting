@@ -3,7 +3,14 @@
     <div class="alert alert-warning">
       {{ date | date : "full" | uppercase }}
     </div>
-    <app-list [cvs]="cvs"></app-list>
+    <app-autocomplete></app-autocomplete>
+
+    <ng-container *ngIf="!(filteredCvs && filteredCvs.length); else filtered">
+      <app-list [cvs]="cvs"></app-list>
+    </ng-container>
+    <ng-template #filtered>
+      <app-list [cvs]="filteredCvs"></app-list>
+    </ng-template>
   </div>
   <div class="col">
     <app-cv-card [cv]="selectedCv"></app-cv-card>

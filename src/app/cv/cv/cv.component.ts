@@ -10,6 +10,7 @@ import { CvService } from "../services/cv.service";
 })
 export class CvComponent {
   cvs: Cv[] = [];
+  filteredCvs: Cv[] | null = null;
   selectedCv: Cv | null = null;
   /*   selectedCv: Cv | null = null; */
   date = new Date();
@@ -33,5 +34,7 @@ export class CvComponent {
     this.logger.logger("je suis le cvComponent");
     this.toastr.info("Bienvenu dans notre CvTech");
     this.cvService.selectCv$.subscribe((cv) => (this.selectedCv = cv));
+    // subscribe to search results from autocomplete and store locally
+    this.cvService.searchResults$.subscribe((cvs) => (this.filteredCvs = cvs));
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Cv } from "../model/cv";
-import { Observable, Subject } from "rxjs";
+import { Observable, Subject, BehaviorSubject } from "rxjs";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { API } from "../../../config/api.config";
 
@@ -17,6 +17,9 @@ export class CvService {
    * Le flux des cvs sélectionnés
    */
   selectCv$ = this.#selectCvSuject$.asObservable();
+  // flux des résultats de recherche provenant de l'autocomplete
+  #searchResultsSubject$ = new BehaviorSubject<Cv[] | null>(null);
+  searchResults$ = this.#searchResultsSubject$.asObservable();
   constructor(private http: HttpClient) {
     this.cvs = [
       new Cv(1, "aymen", "sellaouti", "teacher", "as.jpg", "1234", 40),
@@ -130,5 +133,9 @@ export class CvService {
    */
   selectCv(cv: Cv) {
     this.#selectCvSuject$.next(cv);
+  }
+
+  setSearchResults(cvs: Cv[] | null) {
+    this.#searchResultsSubject$.next(cvs);
   }
 }
