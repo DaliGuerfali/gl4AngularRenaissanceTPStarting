@@ -1,0 +1,17 @@
+<div class="row">
+  <div class="col-4">
+    <ul class="list-group">
+      <li *ngFor="let cv of cvs(); let i = index" class="list-group-item d-flex align-items-center"
+          [class.active]="selectedCv() && selectedCv()!.id === cv.id">
+        <a class="d-flex align-items-center text-decoration-none w-100" [routerLink]="[cv.id]" (click)="cvService.selectCvWithSignal(cv)">
+          <img [src]="'assets/images/' + (cv.path | defaultImage)" class="rounded-circle me-2" style="width:40px;height:40px;object-fit:cover;" alt="{{cv.name}}">
+          <span>{{ cv.firstname }} {{ cv.name }}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="col-8">
+    <!-- Child route will render DetailsCvComponent here -->
+    <router-outlet></router-outlet>
+  </div>
+</div>

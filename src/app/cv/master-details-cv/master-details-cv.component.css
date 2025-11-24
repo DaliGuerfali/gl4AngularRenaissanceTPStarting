@@ -1,0 +1,8 @@
+/* Basic styles for the master-detail component */
+.list-group-item img {
+  object-fit: cover;
+}
+
+.alert-secondary {
+  margin-top: 1rem;
+}
