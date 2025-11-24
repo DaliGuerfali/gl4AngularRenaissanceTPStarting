@@ -9,9 +9,40 @@
     Ce champ est obligatoire
   </div>
   Firstname:
-  <input type="text" class="form-control" formControlName="firstname" /> Age:
-  <input type="text" class="form-control" formControlName="age" /> Cin:
+  <input type="text" class="form-control" formControlName="firstname" />
+  Age:
+  <input type="number" min="0" class="form-control" formControlName="age" />
+  Cin:
   <input type="text" class="form-control" formControlName="cin" />
+  <!-- show pending state while async validator runs -->
+  <div *ngIf="cin?.pending" class="alert alert-info mt-2">
+    Vérification du CIN en cours...
+  </div>
+
+  <!-- pattern / required errors -->
+  <div
+    *ngIf="cin?.errors?.['pattern'] && cin?.touched"
+    class="alert alert-danger"
+  >
+    Le CIN doit contenir 8 chiffres.
+  </div>
+
+  <!-- async uniqueness error -->
+  <div
+    *ngIf="cin?.errors?.['cinTaken'] && cin?.touched"
+    class="alert alert-danger"
+  >
+    Ce CIN est déjà utilisé.
+  </div>
+
+  <!-- age/cin correlation error -->
+  <div
+    *ngIf="cin?.errors?.['cinAgeMismatch'] && cin?.touched"
+    class="alert alert-danger"
+  >
+    Le CIN n'est pas cohérent avec l'âge saisi.
+  </div>
+
   <div
     *ngIf="
       form.errors && form.errors['cinFirstCars'] && cin?.touched && age?.touched
@@ -22,6 +53,9 @@
   </div>
   Job: <input type="text" class="form-control" formControlName="job" /> Path:
   <input type="text" class="form-control" formControlName="path" />
+  <div *ngIf="form.get('path')?.disabled" class="alert alert-warning mt-2">
+    L'ajout d'une image n'est pas autorisé pour les mineurs (moins de 18 ans).
+  </div>
 
   <button [disabled]="form.invalid" class="btn btn-primary" (click)="addCv()">
     add cv
