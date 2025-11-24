@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, lastValueFrom } from "rxjs";
 import { API } from "src/config/api.config";
 import { Settings } from "../dto/product-settings.dto";
 import { ProductApiResponse } from "../dto/product-api-response.dto";
@@ -18,9 +18,11 @@ export class ProductService {
     );
   }
 
-  fetchProducts(skip: number, limit: number): Observable<ProductApiResponse> {
-    return this.http.get<ProductApiResponse>(
-      `${API.products}?limit=${limit}&skip=${skip}`
+  fetchProducts(skip: number, limit: number): Promise<ProductApiResponse> {
+    return lastValueFrom(
+      this.http.get<ProductApiResponse>(
+        `${API.products}?limit=${limit}&skip=${skip}`
+      )
     );
   }
 }
