@@ -14,6 +14,7 @@ import { CvComponent } from "./cv/cv/cv.component";
 import { DetailsCvComponent } from "./cv/details-cv/details-cv.component";
 import { RhComponent } from "./optimizationPattern/rh/rh.component";
 import { TtcCalculatorComponent } from "./components/ttc-calculator/ttc-calculator.component";
+import { ProductsComponent } from "./products/products.component";
 
 
 const routes: Route[] = [
@@ -27,6 +28,7 @@ const routes: Route[] = [
   { path: "cv/add", component: AddCvComponent, canActivate: [AuthGuard] },
   { path: "cv/:id", component: DetailsCvComponent },
   { path: "ttc", component: TtcCalculatorComponent },
+  { path: "products", component: ProductsComponent },
   {
     path: "",
     component: FrontComponent,

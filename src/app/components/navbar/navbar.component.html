@@ -79,6 +79,12 @@
                           >TTC Calculator</a>
                           
                         <a
+                          class="nav-link"
+                          [routerLink]="['products']"
+                          routerLinkActive="active text-primary"
+                          >Products</a>
+                          
+                        <a
                           *ngIf="!isAuthenticated()"
                           class="nav-link"
                           [routerLink]="['login']"
