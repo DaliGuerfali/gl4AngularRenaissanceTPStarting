@@ -4,21 +4,21 @@
     <div class="alert alert-warning">
       {{ date | date : "full" | uppercase }}
     </div>
-    
+
     <!-- 🔄 Indicateur de chargement -->
     @if (loading()) {
-      <div class="alert alert-info">
-        <i class="fa fa-spinner fa-spin"></i> Chargement des CVs en cours...
-      </div>
+    <div class="alert alert-info">
+      <i class="fa fa-spinner fa-spin"></i> Chargement des CVs en cours...
+    </div>
     }
-    
+
     <!-- 🚨 Affichage des erreurs -->
     @if (error()) {
-      <div class="alert alert-danger">
-        <i class="fa fa-exclamation-triangle"></i> {{ error() }}
-      </div>
+    <div class="alert alert-danger">
+      <i class="fa fa-exclamation-triangle"></i> {{ error() }}
+    </div>
     }
-    
+
     <!-- 📋 Liste des CVs avec signaux -->
     <app-list [cvs]="cvs()"></app-list>
   </div>
@@ -27,4 +27,11 @@
     <app-cv-card [cv]="selectedCv()"></app-cv-card>
   </div>
 </div>
+
+@defer (on viewport){
 <app-embauche></app-embauche>
+} @placeholder {
+<div class="alert alert-info">
+  <i class="fa fa-spinner fa-spin"></i> Chargement de la section embauche...
+</div>
+}
