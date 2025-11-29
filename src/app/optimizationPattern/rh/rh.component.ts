@@ -1,43 +1,56 @@
-import {Component, OnInit} from '@angular/core';
-import {User, UsersService} from "../users.service";
+import { ChangeDetectionStrategy, Component, NgZone, OnInit } from '@angular/core';
+import { User, UsersService } from '../users.service';
 import * as ChartJs from 'chart.js/auto';
+
 @Component({
   selector: 'app-rh',
   templateUrl: './rh.component.html',
-  styleUrls: ['./rh.component.css']
+  styleUrls: ['./rh.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RhComponent implements OnInit {
   oddUsers: User[];
   evenUsers: User[];
   chart: any;
-  constructor(private userService: UsersService) {
+
+  constructor(private userService: UsersService, private ngZone: NgZone) {
     this.oddUsers = this.userService.getOddOrEven(true);
     this.evenUsers = this.userService.getOddOrEven();
   }
 
   ngOnInit(): void {
-        this.createChart();
-    }
-  addUser(list: User[], newUser: string) {
-    this.userService.addUser(list, newUser);
+    this.ngZone.runOutsideAngular(() => {
+      this.createChart();
+    });
   }
-  createChart(){
+
+  addUser(list: 'odd' | 'even', newUser: string): void {
+    const user = this.userService.createRandomUser(newUser);
+
+    if (list === 'odd') {
+      this.oddUsers = [user, ...this.oddUsers];
+    } else {
+      this.evenUsers = [user, ...this.evenUsers];
+    }
+  }
+
+  createChart(): void {
     const data = [
       { users: 'Workers', count: this.oddUsers.length },
       { users: 'Boss', count: this.evenUsers.length },
     ];
-    this.chart = new ChartJs.Chart("MyChart",
-    {
+
+    this.chart = new (ChartJs as any).Chart('MyChart', {
       type: 'bar',
-        data: {
-          labels: data.map(row => row.users),
+      data: {
+        labels: data.map((row) => row.users),
         datasets: [
-        {
-          label: 'Entreprise stats',
-          data: data.map(row => row.count)
-        }
-      ]
-    }
+          {
+            label: 'Entreprise stats',
+            data: data.map((row) => row.count)
+          }
+        ]
+      }
     });
   }
 }
