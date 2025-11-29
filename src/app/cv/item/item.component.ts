@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, inject } from "@angular/core";
+import { Component, Input, inject } from "@angular/core";
 import { Cv } from "../model/cv";
 import { CvService } from "../services/cv.service";
 import { NgStyle } from "@angular/common";
@@ -18,10 +18,6 @@ export class ItemComponent {
   @Input() size = 50;
 
   onSelectCv() {
-    // 🚀 SIGNALS - Utilise la nouvelle méthode basée sur les signaux
     this.cvService.selectCvWithSignal(this.cv);
-    
-    // 🔄 Garde aussi l'ancienne méthode pour la compatibilité
-    this.cvService.selectCv(this.cv);
   }
 }
